@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lf.foreground.user.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.lf.foreground.user.domain.User">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_sex" jdbcType="INTEGER" property="userSex" />
+    <result column="user_birthday" jdbcType="DATE" property="userBirthday" />
+    <result column="user_card" jdbcType="VARCHAR" property="userCard" />
+    <result column="user_bank" jdbcType="VARCHAR" property="userBank" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="user_pass" jdbcType="VARCHAR" property="userPass" />
+    <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+    <result column="user_remark" jdbcType="VARCHAR" property="userRemark" />
+    <result column="user_create_time" jdbcType="TIMESTAMP" property="userCreateTime" />
+    <result column="user_update_time" jdbcType="TIMESTAMP" property="userUpdateTime" />
+    <result column="user_status" jdbcType="INTEGER" property="userStatus" />
+    <result column="ui_id" jdbcType="INTEGER" property="uiId" />
+    <result column="user_url" jdbcType="VARCHAR" property="userUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_name, user_sex, user_birthday, user_card, user_bank, user_phone, user_remark, 
+    user_create_time,user_email,user_pass, user_update_time, user_status, ui_id, user_url
+  </sql>
+  <!--根据id查询-->
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="user">
+    select
+      user_id,user_name, user_sex, user_birthday, user_card, user_bank, user_phone, user_remark
+    from lf_user
+    where user_id = #{userId,jdbcType=INTEGER} and user_status = 1
+  </select>
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    update lf_user set user_status = 0
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <!--添加信息-->
+  <insert id="insert" parameterType="user">
+    insert into lf_user (user_name, user_sex,
+      user_birthday, user_card, user_bank, 
+      user_phone, user_remark, user_create_time, 
+      user_update_time, user_status,user_url,user_pass,user_email
+      )
+    values (#{userName,jdbcType=VARCHAR}, #{userSex,jdbcType=INTEGER},
+      #{userBirthday,jdbcType=DATE}, #{userCard,jdbcType=VARCHAR}, #{userBank,jdbcType=VARCHAR}, 
+      #{userPhone,jdbcType=VARCHAR}, #{userRemark,jdbcType=VARCHAR}, now(),
+      #{userUpdateTime,jdbcType=TIMESTAMP},1, #{userUrl,jdbcType=VARCHAR},#{userPass},#{userEmail}
+      )
+    <selectKey keyProperty="userId" resultType="int" order="AFTER">
+      select last_insert_id()
+    </selectKey>
+  </insert>
+  <insert id="insertSelective" parameterType="com.lf.foreground.user.domain.User">
+    insert into lf_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="userSex != null">
+        user_sex,
+      </if>
+      <if test="userBirthday != null">
+        user_birthday,
+      </if>
+      <if test="userCard != null">
+        user_card,
+      </if>
+      <if test="userBank != null">
+        user_bank,
+      </if>
+      <if test="userPhone != null">
+        user_phone,
+      </if>
+      <if test="userRemark != null">
+        user_remark,
+      </if>
+      <if test="userCreateTime != null">
+        user_create_time,
+      </if>
+      <if test="userUpdateTime != null">
+        user_update_time,
+      </if>
+      <if test="userStatus != null">
+        user_status,
+      </if>
+      <if test="uiId != null">
+        ui_id,
+      </if>
+      <if test="userUrl != null">
+        user_url,
+      </if>
+      <if test="userPass != null">
+        user_pass,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null">
+        #{userSex,jdbcType=INTEGER},
+      </if>
+      <if test="userBirthday != null">
+        #{userBirthday,jdbcType=DATE},
+      </if>
+      <if test="userCard != null">
+        #{userCard,jdbcType=VARCHAR},
+      </if>
+      <if test="userBank != null">
+        #{userBank,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userRemark != null">
+        #{userRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="userCreateTime != null">
+        #{userCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userUpdateTime != null">
+        #{userUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userStatus != null">
+        #{userStatus,jdbcType=INTEGER},
+      </if>
+      <if test="uiId != null">
+        #{uiId,jdbcType=INTEGER},
+      </if>
+      <if test="userUrl != null">
+        #{userUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="userPass != null">
+        #{userPass,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lf.foreground.user.domain.User">
+    update lf_user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null">
+        user_sex = #{userSex,jdbcType=INTEGER},
+      </if>
+      <if test="userBirthday != null">
+        user_birthday = #{userBirthday,jdbcType=DATE},
+      </if>
+      <if test="userCard != null">
+        user_card = #{userCard,jdbcType=VARCHAR},
+      </if>
+      <if test="userBank != null">
+        user_bank = #{userBank,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userRemark != null">
+        user_remark = #{userRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="userCreateTime != null">
+        user_create_time = #{userCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userUpdateTime != null">
+        user_update_time = #{userUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userStatus != null">
+        user_status = #{userStatus,jdbcType=INTEGER},
+      </if>
+      <if test="uiId != null">
+        ui_id = #{uiId,jdbcType=INTEGER},
+      </if>
+      <if test="userUrl != null">
+        user_url = #{userUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <!--修改用户信息-->
+  <update id="updateByPrimaryKey" parameterType="com.lf.foreground.user.domain.User">
+    update lf_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_sex = #{userSex,jdbcType=INTEGER},
+      user_birthday = #{userBirthday,jdbcType=DATE},
+      user_card = #{userCard,jdbcType=VARCHAR},
+      user_bank = #{userBank,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      user_remark = #{userRemark,jdbcType=VARCHAR},
+      user_create_time = now(),
+      user_update_time = now()
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <!--条件分页查询 排序-->
+  <select id="queryList" resultType="userTemp">
+    select
+        s.house_id,u.user_id,u.user_name,u.user_sex,u.user_phone,u.user_birthday,l.house_id as houseId2
+    from lf_user u
+      left join lf_sell s on u.user_id = s.user_id
+      left join lf_lease l on u.user_id = l.user_id
+      left join lf_house h on s.house_id = h.house_id
+        where
+          1=1
+          <if test="sea.userUserId!=null">
+            and u.user_id = #{sea.userUserId}
+          </if>
+          <if test="sea.userUserName!=null and sea.userUserName!=''">
+            and u.user_name like  "%"#{sea.userUserName}"%"
+          </if>
+          <if test="sea.userHouseId!=null">
+            and h.house_id = #{sea.userHouseId}
+          </if>
+          and user_status = 1
+          <if test="sort != null and sort != ''">
+            and order by ${sort} ${order}
+          </if>
+  </select>
+
+  <!--手机唯一校验-->
+  <select id="checkUserPhone" resultType="user">
+      select
+        <include refid="Base_Column_List"/>
+      from
+        lf_user
+      where user_phone = #{userPhone}
+  </select>
+
+</mapper>

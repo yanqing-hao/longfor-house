@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lf.background.house.house.mapper.HouseMapper">
+  <resultMap id="BaseResultMap" type="com.lf.background.house.house.domain.House">
+    <id column="house_id" jdbcType="INTEGER" property="houseId" />
+    <result column="house_method" jdbcType="INTEGER" property="houseMethod" />
+    <result column="house_title" jdbcType="VARCHAR" property="houseTitle" />
+    <result column="staff_area" jdbcType="REAL" property="staffArea" />
+    <result column="house_name" jdbcType="VARCHAR" property="houseName" />
+    <result column="house_addr" jdbcType="VARCHAR" property="houseAddr" />
+    <result column="house_count" jdbcType="INTEGER" property="houseCount" />
+    <result column="house_floor" jdbcType="INTEGER" property="houseFloor" />
+    <result column="house_sum_floor" jdbcType="INTEGER" property="houseSumFloor" />
+    <result column="house_case" jdbcType="INTEGER" property="houseCase" />
+    <result column="house_build" jdbcType="INTEGER" property="houseBuild" />
+    <result column="house_direction" jdbcType="VARCHAR" property="houseDirection" />
+    <result column="house_region" jdbcType="VARCHAR" property="houseRegion" />
+    <result column="house_rtype" jdbcType="INTEGER" property="houseRtype" />
+    <result column="house_sell_price" jdbcType="DOUBLE" property="houseSellPrice" />
+    <result column="house_developers" jdbcType="VARCHAR" property="houseDevelopers" />
+    <result column="house_equity" jdbcType="VARCHAR" property="houseEquity" />
+    <result column="house_configure" jdbcType="VARCHAR" property="houseConfigure" />
+    <result column="house_lease_type" jdbcType="INTEGER" property="houseLeaseType" />
+    <result column="house_lease_price" jdbcType="DOUBLE" property="houseLeasePrice" />
+    <result column="house_status" jdbcType="INTEGER" property="houseStatus" />
+    <result column="house_remark" jdbcType="VARCHAR" property="houseRemark" />
+    <result column="house_create_time" jdbcType="TIMESTAMP" property="houseCreateTime" />
+    <result column="house_update_time" jdbcType="TIMESTAMP" property="houseUpdateTime" />
+    <result column="house_hstatus" jdbcType="INTEGER" property="houseHstatus" />
+    <result column="house_about" jdbcType="VARCHAR" property="houseAbout" />
+    <result column="staff_id" jdbcType="INTEGER" property="staffId" />
+  </resultMap>
+
+  <!--房源+图片resultMap-->
+  <resultMap id="HousePictureMap" type="com.lf.background.house.house.domain.HouseStaffPicture">
+    <id column="house_id" jdbcType="INTEGER" property="houseId" />
+    <result column="house_method" jdbcType="INTEGER" property="houseMethod" />
+    <result column="house_title" jdbcType="VARCHAR" property="houseTitle" />
+    <result column="staff_area" jdbcType="REAL" property="staffArea" />
+    <result column="house_name" jdbcType="VARCHAR" property="houseName" />
+    <result column="house_addr" jdbcType="VARCHAR" property="houseAddr" />
+    <result column="house_count" jdbcType="INTEGER" property="houseCount" />
+    <result column="house_floor" jdbcType="INTEGER" property="houseFloor" />
+    <result column="house_sum_floor" jdbcType="INTEGER" property="houseSumFloor" />
+    <result column="house_case" jdbcType="INTEGER" property="houseCase" />
+    <result column="house_build" jdbcType="INTEGER" property="houseBuild" />
+    <result column="house_direction" jdbcType="VARCHAR" property="houseDirection" />
+    <result column="house_region" jdbcType="VARCHAR" property="houseRegion" />
+    <result column="house_rtype" jdbcType="INTEGER" property="houseRtype" />
+    <result column="house_sell_price" jdbcType="DOUBLE" property="houseSellPrice" />
+    <result column="house_developers" jdbcType="VARCHAR" property="houseDevelopers" />
+    <result column="house_equity" jdbcType="VARCHAR" property="houseEquity" />
+    <result column="house_configure" jdbcType="VARCHAR" property="houseConfigure" />
+    <result column="house_lease_type" jdbcType="INTEGER" property="houseLeaseType" />
+    <result column="house_lease_price" jdbcType="DOUBLE" property="houseLeasePrice" />
+    <result column="house_status" jdbcType="INTEGER" property="houseStatus" />
+    <result column="house_remark" jdbcType="VARCHAR" property="houseRemark" />
+    <result column="house_create_time" jdbcType="TIMESTAMP" property="houseCreateTime" />
+    <result column="house_update_time" jdbcType="TIMESTAMP" property="houseUpdateTime" />
+    <result column="house_hstatus" jdbcType="INTEGER" property="houseHstatus" />
+    <result column="house_about" jdbcType="VARCHAR" property="houseAbout" />
+    <result column="staff_id" jdbcType="INTEGER" property="staffId" />
+    <result column="staff_name" jdbcType="VARCHAR" property="staffName" />
+    <collection property="pictureList" ofType="picture">
+      <id column="pic_id" jdbcType="INTEGER" property="picId" />
+      <result column="pic_path" jdbcType="VARCHAR" property="picPath" />
+      <result column="pic_type" jdbcType="INTEGER" property="picType" />
+      <result column="pic_create_time" jdbcType="TIMESTAMP" property="picCreateTime" />
+      <result column="pic_update_time" jdbcType="TIMESTAMP" property="picUpdateTime" />
+      <result column="pic_status" jdbcType="INTEGER" property="picStatus" />
+    </collection>
+  </resultMap>
+  <!--租房-->
+  <sql id="Lease_House_List">
+    house_id, house_method, house_title, staff_area, house_name, house_addr, house_count,
+    house_floor, house_sum_floor, house_case, house_build, house_direction, house_region,
+    house_configure, house_lease_type,house_lease_price, house_status, house_remark, house_create_time,
+    house_update_time, house_hstatus,house_about, staff_id
+  </sql>
+  <!--售房-->
+  <sql id="Sell_House_List">
+    house_id, house_method, house_title, staff_area, house_name, house_addr, house_count,
+    house_floor, house_sum_floor, house_case, house_build, house_direction, house_region,
+    house_rtype, house_sell_price, house_developers, house_equity,
+    house_status, house_remark, house_create_time, house_update_time, house_hstatus,
+    house_about, staff_id
+  </sql>
+
+  <sql id="Base_Column_List">
+    house_id, house_method, house_title, staff_area, house_name, house_addr, house_count, 
+    house_floor, house_sum_floor, house_case, house_build, house_direction, house_region, 
+    house_rtype, house_sell_price, house_developers, house_equity, house_configure, house_lease_type, 
+    house_lease_price, house_status, house_remark, house_create_time, house_update_time, 
+    house_hstatus, house_about, staff_id
+  </sql>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from lf_house
+    where house_id = #{houseId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lf.background.house.house.domain.House">
+    insert into lf_house (house_id, house_method, house_title, 
+      staff_area, house_name, house_addr, 
+      house_count, house_floor, house_sum_floor, 
+      house_case, house_build, house_direction, 
+      house_region, house_rtype, house_sell_price, 
+      house_developers, house_equity, house_configure, 
+      house_lease_type, house_lease_price, house_status, 
+      house_remark, house_create_time, house_update_time, 
+      house_hstatus, house_about, staff_id
+      )
+    values (#{houseId,jdbcType=INTEGER}, #{houseMethod,jdbcType=INTEGER}, #{houseTitle,jdbcType=VARCHAR}, 
+      #{staffArea,jdbcType=REAL}, #{houseName,jdbcType=VARCHAR}, #{houseAddr,jdbcType=VARCHAR}, 
+      #{houseCount,jdbcType=INTEGER}, #{houseFloor,jdbcType=INTEGER}, #{houseSumFloor,jdbcType=INTEGER}, 
+      #{houseCase,jdbcType=INTEGER}, #{houseBuild,jdbcType=INTEGER}, #{houseDirection,jdbcType=VARCHAR}, 
+      #{houseRegion,jdbcType=VARCHAR}, #{houseRtype,jdbcType=INTEGER}, #{houseSellPrice,jdbcType=DOUBLE}, 
+      #{houseDevelopers,jdbcType=VARCHAR}, #{houseEquity,jdbcType=VARCHAR}, #{houseConfigure,jdbcType=VARCHAR}, 
+      #{houseLeaseType,jdbcType=INTEGER}, #{houseLeasePrice,jdbcType=DOUBLE}, #{houseStatus,jdbcType=INTEGER}, 
+      #{houseRemark,jdbcType=VARCHAR}, #{houseCreateTime,jdbcType=TIMESTAMP}, #{houseUpdateTime,jdbcType=TIMESTAMP}, 
+      #{houseHstatus,jdbcType=INTEGER}, #{houseAbout,jdbcType=VARCHAR}, #{staffId,jdbcType=INTEGER}
+      )
+  </insert>
+
+
+  <!--发布房源-->
+  <insert id="insertSelective" parameterType="com.lf.background.house.house.domain.House">
+    insert into lf_house
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="houseId != null">
+        house_id,
+      </if>
+      <if test="houseMethod != null">
+        house_method,
+      </if>
+      <if test="houseTitle != null">
+        house_title,
+      </if>
+      <if test="staffArea != null">
+        staff_area,
+      </if>
+      <if test="houseName != null">
+        house_name,
+      </if>
+      <if test="houseAddr != null">
+        house_addr,
+      </if>
+      <if test="houseCount != null">
+        house_count,
+      </if>
+      <if test="houseFloor != null">
+        house_floor,
+      </if>
+      <if test="houseSumFloor != null">
+        house_sum_floor,
+      </if>
+      <if test="houseCase != null">
+        house_case,
+      </if>
+      <if test="houseBuild != null">
+        house_build,
+      </if>
+      <if test="houseDirection != null">
+        house_direction,
+      </if>
+      <if test="houseRegion != null">
+        house_region,
+      </if>
+      <if test="houseRtype != null">
+        house_rtype,
+      </if>
+      <if test="houseSellPrice != null">
+        house_sell_price,
+      </if>
+      <if test="houseDevelopers != null">
+        house_developers,
+      </if>
+      <if test="houseEquity != null">
+        house_equity,
+      </if>
+      <if test="houseConfigure != null">
+        house_configure,
+      </if>
+      <if test="houseLeaseType != null">
+        house_lease_type,
+      </if>
+      <if test="houseLeasePrice != null">
+        house_lease_price,
+      </if>
+      <if test="houseStatus != null">
+        house_status,
+      </if>
+      <if test="houseRemark != null">
+        house_remark,
+      </if>
+      <if test="houseCreateTime != null">
+        house_create_time,
+      </if>
+      <if test="houseUpdateTime != null">
+        house_update_time,
+      </if>
+      <if test="houseHstatus != null">
+        house_hstatus,
+      </if>
+      <if test="houseAbout != null">
+        house_about,
+      </if>
+      <if test="staffId != null">
+        staff_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="houseId != null">
+        #{houseId,jdbcType=INTEGER},
+      </if>
+      <if test="houseMethod != null">
+        #{houseMethod,jdbcType=INTEGER},
+      </if>
+      <if test="houseTitle != null">
+        #{houseTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="staffArea != null">
+        #{staffArea,jdbcType=REAL},
+      </if>
+      <if test="houseName != null">
+        #{houseName,jdbcType=VARCHAR},
+      </if>
+      <if test="houseAddr != null">
+        #{houseAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="houseCount != null">
+        #{houseCount,jdbcType=INTEGER},
+      </if>
+      <if test="houseFloor != null">
+        #{houseFloor,jdbcType=INTEGER},
+      </if>
+      <if test="houseSumFloor != null">
+        #{houseSumFloor,jdbcType=INTEGER},
+      </if>
+      <if test="houseCase != null">
+        #{houseCase,jdbcType=INTEGER},
+      </if>
+      <if test="houseBuild != null">
+        #{houseBuild,jdbcType=INTEGER},
+      </if>
+      <if test="houseDirection != null">
+        #{houseDirection,jdbcType=VARCHAR},
+      </if>
+      <if test="houseRegion != null">
+        #{houseRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="houseRtype != null">
+        #{houseRtype,jdbcType=INTEGER},
+      </if>
+      <if test="houseSellPrice != null">
+        #{houseSellPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="houseDevelopers != null">
+        #{houseDevelopers,jdbcType=VARCHAR},
+      </if>
+      <if test="houseEquity != null">
+        #{houseEquity,jdbcType=VARCHAR},
+      </if>
+      <if test="houseConfigure != null">
+        #{houseConfigure,jdbcType=VARCHAR},
+      </if>
+      <if test="houseLeaseType != null">
+        #{houseLeaseType,jdbcType=INTEGER},
+      </if>
+      <if test="houseLeasePrice != null">
+        #{houseLeasePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="houseStatus != null">
+        #{houseStatus,jdbcType=INTEGER},
+      </if>
+      <if test="houseRemark != null">
+        #{houseRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="houseCreateTime != null">
+        #{houseCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="houseUpdateTime != null">
+        #{houseUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="houseHstatus != null">
+        #{houseHstatus,jdbcType=INTEGER},
+      </if>
+      <if test="houseAbout != null">
+        #{houseAbout,jdbcType=VARCHAR},
+      </if>
+      <if test="staffId != null">
+        #{staffId,jdbcType=INTEGER},
+      </if>
+    </trim>
+    <selectKey keyProperty="houseId" resultType="int" order="AFTER">
+      select last_insert_id()
+    </selectKey>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lf.background.house.house.domain.House">
+    update lf_house
+    <set>
+      <if test="houseMethod != null">
+        house_method = #{houseMethod,jdbcType=INTEGER},
+      </if>
+      <if test="houseTitle != null">
+        house_title = #{houseTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="staffArea != null">
+        staff_area = #{staffArea,jdbcType=REAL},
+      </if>
+      <if test="houseName != null">
+        house_name = #{houseName,jdbcType=VARCHAR},
+      </if>
+      <if test="houseAddr != null">
+        house_addr = #{houseAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="houseCount != null">
+        house_count = #{houseCount,jdbcType=INTEGER},
+      </if>
+      <if test="houseFloor != null">
+        house_floor = #{houseFloor,jdbcType=INTEGER},
+      </if>
+      <if test="houseSumFloor != null">
+        house_sum_floor = #{houseSumFloor,jdbcType=INTEGER},
+      </if>
+      <if test="houseCase != null">
+        house_case = #{houseCase,jdbcType=INTEGER},
+      </if>
+      <if test="houseBuild != null">
+        house_build = #{houseBuild,jdbcType=INTEGER},
+      </if>
+      <if test="houseDirection != null">
+        house_direction = #{houseDirection,jdbcType=VARCHAR},
+      </if>
+      <if test="houseRegion != null">
+        house_region = #{houseRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="houseRtype != null">
+        house_rtype = #{houseRtype,jdbcType=INTEGER},
+      </if>
+      <if test="houseSellPrice != null">
+        house_sell_price = #{houseSellPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="houseDevelopers != null">
+        house_developers = #{houseDevelopers,jdbcType=VARCHAR},
+      </if>
+      <if test="houseEquity != null">
+        house_equity = #{houseEquity,jdbcType=VARCHAR},
+      </if>
+      <if test="houseConfigure != null">
+        house_configure = #{houseConfigure,jdbcType=VARCHAR},
+      </if>
+      <if test="houseLeaseType != null">
+        house_lease_type = #{houseLeaseType,jdbcType=INTEGER},
+      </if>
+      <if test="houseLeasePrice != null">
+        house_lease_price = #{houseLeasePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="houseStatus != null">
+        house_status = #{houseStatus,jdbcType=INTEGER},
+      </if>
+      <if test="houseRemark != null">
+        house_remark = #{houseRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="houseCreateTime != null">
+        house_create_time = #{houseCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="houseUpdateTime != null">
+        house_update_time = #{houseUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="houseHstatus != null">
+        house_hstatus = #{houseHstatus,jdbcType=INTEGER},
+      </if>
+      <if test="houseAbout != null">
+        house_about = #{houseAbout,jdbcType=VARCHAR},
+      </if>
+      <if test="staffId != null">
+        staff_id = #{staffId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where house_id = #{houseId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lf.background.house.house.domain.House">
+    update lf_house
+    set house_method = #{houseMethod,jdbcType=INTEGER},
+      house_title = #{houseTitle,jdbcType=VARCHAR},
+      staff_area = #{staffArea,jdbcType=REAL},
+      house_name = #{houseName,jdbcType=VARCHAR},
+      house_addr = #{houseAddr,jdbcType=VARCHAR},
+      house_count = #{houseCount,jdbcType=INTEGER},
+      house_floor = #{houseFloor,jdbcType=INTEGER},
+      house_sum_floor = #{houseSumFloor,jdbcType=INTEGER},
+      house_case = #{houseCase,jdbcType=INTEGER},
+      house_build = #{houseBuild,jdbcType=INTEGER},
+      house_direction = #{houseDirection,jdbcType=VARCHAR},
+      house_region = #{houseRegion,jdbcType=VARCHAR},
+      house_rtype = #{houseRtype,jdbcType=INTEGER},
+      house_sell_price = #{houseSellPrice,jdbcType=DOUBLE},
+      house_developers = #{houseDevelopers,jdbcType=VARCHAR},
+      house_equity = #{houseEquity,jdbcType=VARCHAR},
+      house_configure = #{houseConfigure,jdbcType=VARCHAR},
+      house_lease_type = #{houseLeaseType,jdbcType=INTEGER},
+      house_lease_price = #{houseLeasePrice,jdbcType=DOUBLE},
+      house_status = #{houseStatus,jdbcType=INTEGER},
+      house_remark = #{houseRemark,jdbcType=VARCHAR},
+      house_create_time = #{houseCreateTime,jdbcType=TIMESTAMP},
+      house_update_time = #{houseUpdateTime,jdbcType=TIMESTAMP},
+      house_hstatus = #{houseHstatus,jdbcType=INTEGER},
+      house_about = #{houseAbout,jdbcType=VARCHAR},
+      staff_id = #{staffId,jdbcType=INTEGER}
+    where house_id = #{houseId,jdbcType=INTEGER}
+  </update>
+
+  <!--查看房源列表联查员工-->
+  <select id="getHouseList" resultType="HouseStaffPicture">
+    select
+      h.*,s.staff_name
+    from
+      lf_house h
+    inner join lf_staff s on h.staff_id = s.staff_id
+    <where>
+      <if test="houseSearch.createTimeB!='' and houseSearch.createTimeB!=null">
+        and h.house_create_time <![CDATA[>=]]> #{houseSearch.createTimeB}
+      </if>
+      <if test="houseSearch.createTimeE!='' and houseSearch.createTimeE!=null">
+        and h.house_create_time <![CDATA[<=]]> #{houseSearch.createTimeE}
+      </if>
+      <if test="houseSearch.staffName!=''and houseSearch.staffName!=null">
+        and s.staff_name like "%"#{houseSearch.staffName}"%"
+      </if>
+      <if test="houseSearch.houseStatus!=null">
+        and h.house_status = #{houseSearch.houseStatus}
+      </if>
+      <if test="houseSearch.houseMethod!=null">
+        and h.house_method = #{houseSearch.houseMethod}
+      </if>
+      <if test="houseSearch.staffId!=null">
+        and h.staff_id = #{houseSearch.staffId}
+      </if>
+      and h.house_hstatus = 1
+    </where>
+    <if test="sort!=null and sort!=''">
+      order by h.${sort} ${order}
+    </if>
+    <if test="sort==null or sort==''">
+      order by h.house_id desc
+    </if>
+  </select>
+
+  <!--逻辑删除房源数据-->
+  <update id="updateHouseStatus" parameterType="int">
+    update lf_house
+    set house_hstatus = 0
+    where house_id = #{houseId}
+  </update>
+
+
+  <!--回显信息-->
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="HousePictureMap">
+    select
+       h.*,s.staff_id,s.staff_name,p.pic_path,p.pic_id
+    from
+       lf_house h
+    inner join lf_staff s on h.staff_id = s.staff_id
+    left join lf_picture p on p.house_id = h.house_id
+    where h.house_id = #{houseId,jdbcType=INTEGER}
+  </select>
+
+  <!--查询租赁房源列表-->
+  <select id="queryLeaseHouseList" resultMap="HousePictureMap">
+    select
+       h.*,s.staff_id,s.staff_name,p.pic_path,p.pic_id
+    from
+       lf_house h
+    inner join lf_staff s on h.staff_id = s.staff_id
+    left join lf_picture p on p.house_id = h.house_id
+    where h.house_method = #{houseMethod}
+  </select>
+
+  <!--查询销售房源列表-->
+  <select id="querySellHouseList" resultMap="HousePictureMap">
+    select
+       h.*,s.staff_id,s.staff_name,p.pic_path,p.pic_id
+    from
+       lf_house h
+    inner join lf_staff s on h.staff_id = s.staff_id
+    left join lf_picture p on p.house_id = h.house_id
+    where
+       h.house_method = #{houseMethod}
+    and
+       h.house_rtype = #{houseRtype}
+  </select>
+
+  <!--/*修改房屋状态（是否出租 与 销售）*/-->
+  <update id="updateHouseSellLease" parameterType="int">
+    update lf_house
+    set house_status = 1
+    where house_id = #{houseId}
+  </update>
+</mapper>

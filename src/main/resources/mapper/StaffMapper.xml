@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lf.background.staff.mapper.StaffMapper">
+  <resultMap id="BaseResultMap" type="com.lf.background.staff.domain.Staff">
+    <id column="staff_id" jdbcType="INTEGER" property="staffId" />
+    <result column="staff_name" jdbcType="VARCHAR" property="staffName" />
+    <result column="staff_sex" jdbcType="INTEGER" property="staffSex" />
+    <result column="staff_phone" jdbcType="VARCHAR" property="staffPhone" />
+    <result column="staff_email" jdbcType="VARCHAR" property="staffEmail" />
+    <result column="staff_card" jdbcType="VARCHAR" property="staffCard" />
+    <result column="staff_birthday" jdbcType="DATE" property="staffBirthday" />
+    <result column="staff_address" jdbcType="VARCHAR" property="staffAddress" />
+    <result column="staff_subbranch" jdbcType="INTEGER" property="staffSubbranch" />
+    <result column="staff_date" jdbcType="DATE" property="staffDate" />
+    <result column="staff_post" jdbcType="INTEGER" property="staffPost" />
+    <result column="staff_shiro" jdbcType="INTEGER" property="staffShiro" />
+    <result column="staff_create_time" jdbcType="TIMESTAMP" property="staffCreateTime" />
+    <result column="staff_update_time" jdbcType="TIMESTAMP" property="staffUpdateTime" />
+    <result column="staff_status" jdbcType="INTEGER" property="staffStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    staff_id, staff_name, staff_sex, staff_phone, staff_card, staff_birthday, staff_address, 
+    staff_subbranch, staff_date, staff_pass,staff_email,staff_post, staff_shiro, staff_create_time, staff_update_time,
+    staff_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lf_staff
+    where staff_id = #{staffId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from lf_staff
+    where staff_id = #{staffId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lf.background.staff.domain.Staff">
+    insert into lf_staff (staff_id, staff_name, staff_sex, 
+      staff_phone, staff_card, staff_birthday, 
+      staff_address, staff_subbranch, staff_date, 
+      staff_post, staff_shiro, staff_create_time, 
+      staff_update_time, staff_status)
+    values (#{staffId,jdbcType=INTEGER}, #{staffName,jdbcType=VARCHAR}, #{staffSex,jdbcType=INTEGER}, 
+      #{staffPhone,jdbcType=VARCHAR}, #{staffCard,jdbcType=VARCHAR}, #{staffBirthday,jdbcType=DATE}, 
+      #{staffAddress,jdbcType=VARCHAR}, #{staffSubbranch,jdbcType=INTEGER}, #{staffDate,jdbcType=DATE}, 
+      #{staffPost,jdbcType=INTEGER}, #{staffShiro,jdbcType=INTEGER}, #{staffCreateTime,jdbcType=TIMESTAMP}, 
+      #{staffUpdateTime,jdbcType=TIMESTAMP}, #{staffStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lf.background.staff.domain.Staff">
+    insert into lf_staff
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="staffId != null">
+        staff_id,
+      </if>
+      <if test="staffName != null">
+        staff_name,
+      </if>
+      <if test="staffSex != null">
+        staff_sex,
+      </if>
+      <if test="staffPhone != null">
+        staff_phone,
+      </if>
+      <if test="staffCard != null">
+        staff_card,
+      </if>
+      <if test="staffBirthday != null">
+        staff_birthday,
+      </if>
+      <if test="staffAddress != null">
+        staff_address,
+      </if>
+      <if test="staffSubbranch != null">
+        staff_subbranch,
+      </if>
+      <if test="staffDate != null">
+        staff_date,
+      </if>
+      <if test="staffPost != null">
+        staff_post,
+      </if>
+      <if test="staffShiro != null">
+        staff_shiro,
+      </if>
+      <if test="staffCreateTime != null">
+        staff_create_time,
+      </if>
+      <if test="staffUpdateTime != null">
+        staff_update_time,
+      </if>
+      <if test="staffStatus != null">
+        staff_status,
+      </if>
+      <if test="staffPass != null">
+        staff_pass,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="staffId != null">
+        #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="staffName != null">
+        #{staffName,jdbcType=VARCHAR},
+      </if>
+      <if test="staffSex != null">
+        #{staffSex,jdbcType=INTEGER},
+      </if>
+      <if test="staffPhone != null">
+        #{staffPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCard != null">
+        #{staffCard,jdbcType=VARCHAR},
+      </if>
+      <if test="staffBirthday != null">
+        #{staffBirthday,jdbcType=DATE},
+      </if>
+      <if test="staffAddress != null">
+        #{staffAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="staffSubbranch != null">
+        #{staffSubbranch,jdbcType=INTEGER},
+      </if>
+      <if test="staffDate != null">
+        #{staffDate,jdbcType=DATE},
+      </if>
+      <if test="staffPost != null">
+        #{staffPost,jdbcType=INTEGER},
+      </if>
+      <if test="staffShiro != null">
+        #{staffShiro,jdbcType=INTEGER},
+      </if>
+      <if test="staffCreateTime != null">
+        #{staffCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="staffUpdateTime != null">
+        #{staffUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="staffStatus != null">
+        #{staffStatus,jdbcType=INTEGER},
+      </if>
+      <if test="staffPass != null">
+        #{staffPass,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lf.background.staff.domain.Staff">
+    update lf_staff
+    <set>
+      <if test="staffName != null">
+        staff_name = #{staffName,jdbcType=VARCHAR},
+      </if>
+      <if test="staffSex != null">
+        staff_sex = #{staffSex,jdbcType=INTEGER},
+      </if>
+      <if test="staffPhone != null">
+        staff_phone = #{staffPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCard != null">
+        staff_card = #{staffCard,jdbcType=VARCHAR},
+      </if>
+      <if test="staffBirthday != null">
+        staff_birthday = #{staffBirthday,jdbcType=DATE},
+      </if>
+      <if test="staffAddress != null">
+        staff_address = #{staffAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="staffSubbranch != null">
+        staff_subbranch = #{staffSubbranch,jdbcType=INTEGER},
+      </if>
+      <if test="staffDate != null">
+        staff_date = #{staffDate,jdbcType=DATE},
+      </if>
+      <if test="staffPost != null">
+        staff_post = #{staffPost,jdbcType=INTEGER},
+      </if>
+      <if test="staffShiro != null">
+        staff_shiro = #{staffShiro,jdbcType=INTEGER},
+      </if>
+      <if test="staffCreateTime != null">
+        staff_create_time = #{staffCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="staffUpdateTime != null">
+        staff_update_time = #{staffUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="staffStatus != null">
+        staff_status = #{staffStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where staff_id = #{staffId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lf.background.staff.domain.Staff">
+    update lf_staff
+    set staff_name = #{staffName,jdbcType=VARCHAR},
+      staff_sex = #{staffSex,jdbcType=INTEGER},
+      staff_phone = #{staffPhone,jdbcType=VARCHAR},
+      staff_card = #{staffCard,jdbcType=VARCHAR},
+      staff_birthday = #{staffBirthday,jdbcType=DATE},
+      staff_address = #{staffAddress,jdbcType=VARCHAR},
+      staff_subbranch = #{staffSubbranch,jdbcType=INTEGER},
+      staff_date = #{staffDate,jdbcType=DATE},
+      staff_post = #{staffPost,jdbcType=INTEGER},
+      staff_shiro = #{staffShiro,jdbcType=INTEGER},
+      staff_create_time = #{staffCreateTime,jdbcType=TIMESTAMP},
+      staff_update_time = #{staffUpdateTime,jdbcType=TIMESTAMP},
+      staff_status = #{staffStatus,jdbcType=INTEGER}
+    where staff_id = #{staffId,jdbcType=INTEGER}
+  </update>
+  <!--查询列表-->
+
+  <select id="queryStaffList" resultType="staff">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM lf_staff
+    WHERE staff_status=1
+    <if test="staffSearchVo.staName!=''and staffSearchVo.staName!=null">
+      and staff_name like "%"#{staffSearchVo.staName}"%"
+    </if>
+
+
+  </select>
+
+
+  <update id="deleteUpdate" parameterType="int">
+    update lf_staff
+    set staff_status = 0
+    where staff_id = #{staffId,jdbcType=INTEGER}
+  </update>
+
+
+  <!--根据用户名获取-->
+  <select id="getStaffByName" resultType="staff">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM lf_staff
+    WHERE staff_status=1 AND staff_name = #{name}
+
+  </select>
+
+</mapper>

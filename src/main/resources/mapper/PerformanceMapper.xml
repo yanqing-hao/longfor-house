@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lf.background.performance.mapper.PerformanceMapper">
+  <resultMap id="BaseResultMap" type="com.lf.background.performance.domain.Performance">
+    <id column="per_id" jdbcType="INTEGER" property="perId" />
+    <result column="per_sell_count" jdbcType="INTEGER" property="perSellCount" />
+    <result column="per_sell_price" jdbcType="DOUBLE" property="perSellPrice" />
+    <result column="per_sell_agency" jdbcType="DOUBLE" property="perSellAgency" />
+    <result column="per_lease_count" jdbcType="INTEGER" property="perLeaseCount" />
+    <result column="per_lease_price" jdbcType="DOUBLE" property="perLeasePrice" />
+    <result column="staff_id" jdbcType="INTEGER" property="staffId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    per_id, per_sell_count, per_sell_price, per_sell_agency, per_lease_count, per_lease_price, 
+    staff_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lf_performance
+    where per_id = #{perId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from lf_performance
+    where per_id = #{perId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lf.background.performance.domain.Performance">
+    insert into lf_performance (per_id, per_sell_count, per_sell_price, 
+      per_sell_agency, per_lease_count, per_lease_price, 
+      staff_id)
+    values (#{perId,jdbcType=INTEGER}, #{perSellCount,jdbcType=INTEGER}, #{perSellPrice,jdbcType=DOUBLE}, 
+      #{perSellAgency,jdbcType=DOUBLE}, #{perLeaseCount,jdbcType=INTEGER}, #{perLeasePrice,jdbcType=DOUBLE}, 
+      #{staffId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lf.background.performance.domain.Performance">
+    insert into lf_performance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="perId != null">
+        per_id,
+      </if>
+      <if test="perSellCount != null">
+        per_sell_count,
+      </if>
+      <if test="perSellPrice != null">
+        per_sell_price,
+      </if>
+      <if test="perSellAgency != null">
+        per_sell_agency,
+      </if>
+      <if test="perLeaseCount != null">
+        per_lease_count,
+      </if>
+      <if test="perLeasePrice != null">
+        per_lease_price,
+      </if>
+      <if test="staffId != null">
+        staff_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="perId != null">
+        #{perId,jdbcType=INTEGER},
+      </if>
+      <if test="perSellCount != null">
+        #{perSellCount,jdbcType=INTEGER},
+      </if>
+      <if test="perSellPrice != null">
+        #{perSellPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="perSellAgency != null">
+        #{perSellAgency,jdbcType=DOUBLE},
+      </if>
+      <if test="perLeaseCount != null">
+        #{perLeaseCount,jdbcType=INTEGER},
+      </if>
+      <if test="perLeasePrice != null">
+        #{perLeasePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="staffId != null">
+        #{staffId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lf.background.performance.domain.Performance">
+    update lf_performance
+    <set>
+      <if test="perSellCount != null">
+        per_sell_count = #{perSellCount,jdbcType=INTEGER},
+      </if>
+      <if test="perSellPrice != null">
+        per_sell_price = #{perSellPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="perSellAgency != null">
+        per_sell_agency = #{perSellAgency,jdbcType=DOUBLE},
+      </if>
+      <if test="perLeaseCount != null">
+        per_lease_count = #{perLeaseCount,jdbcType=INTEGER},
+      </if>
+      <if test="perLeasePrice != null">
+        per_lease_price = #{perLeasePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="staffId != null">
+        staff_id = #{staffId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where per_id = #{perId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lf.background.performance.domain.Performance">
+    update lf_performance
+    set per_sell_count = #{perSellCount,jdbcType=INTEGER},
+      per_sell_price = #{perSellPrice,jdbcType=DOUBLE},
+      per_sell_agency = #{perSellAgency,jdbcType=DOUBLE},
+      per_lease_count = #{perLeaseCount,jdbcType=INTEGER},
+      per_lease_price = #{perLeasePrice,jdbcType=DOUBLE},
+      staff_id = #{staffId,jdbcType=INTEGER}
+    where per_id = #{perId,jdbcType=INTEGER}
+  </update>
+
+
+<!--查询销售业绩-->
+  <select id="performanceList" parameterType="com.lf.background.performance.domain.PerVo" resultType="performance">
+      SELECT
+        pe.per_id as perId,
+        count(se.sell_id) as perSellCount,
+        st.staff_name as staffName,
+        sum(se.sell_price) as perSellPrice,
+        sum(se.sell_agency) as perSellAgency,
+        st.staff_id as staffId
+    FROM  lf_staff st
+      left join lf_sell se on st.staff_id = se.staff_id
+      left join lf_performance  pe on st.staff_id = pe.staff_id
+    <where>
+      <if test="staffId !=null" >
+        and st.staff_id=#{staffId}
+      </if>
+      <if test="staffName !=null and staffName!=''" >
+        and st.staff_name=#{staffName}
+      </if>
+      and se.sell_status = 1
+    </where>
+    group by st.staff_id
+  </select>
+
+<!--查询租赁业绩-->
+  <!--入参    出参-->
+  <select id="performanceList2" parameterType="com.lf.background.performance.domain.PerVo" resultType="performance">
+      SELECT
+        pe.per_id as perId,
+        st.staff_name as staffName,
+        count(le.lease_id) as perLeaseCount,
+        sum(le.lease_agency) as perLeasePrice,
+        st.staff_id as staffId
+    FROM   lf_staff st
+      left join lf_lease le on st.staff_id = le.staff_id
+      left join lf_performance pe on st.staff_id = pe.staff_id
+    <where>
+      <if test="staffId !=null" >
+        and st.staff_id=#{staffId}
+      </if>
+      <if test="staffName !=null and staffName!=''" >
+        and st.staff_name=#{staffName}
+      </if>
+      and le.lease_status = 1
+    </where>
+    group by st.staff_id
+  </select>
+
+</mapper>

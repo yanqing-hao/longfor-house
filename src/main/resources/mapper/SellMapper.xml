@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lf.background.sellhouse.mapper.SellMapper">
+  <resultMap id="BaseResultMap" type="com.lf.background.sellhouse.domain.Sell">
+    <id column="sell_id" jdbcType="INTEGER" property="sellId" />
+    <result column="sell_price" jdbcType="DOUBLE" property="sellPrice" />
+    <result column="sell_taxation" jdbcType="DOUBLE" property="sellTaxation" />
+    <result column="sell_agency" jdbcType="DOUBLE" property="sellAgency" />
+    <result column="sell_handsel" jdbcType="DOUBLE" property="sellHandsel" />
+    <result column="sell_down" jdbcType="DOUBLE" property="sellDown" />
+    <result column="sell_final" jdbcType="DOUBLE" property="sellFinal" />
+    <result column="sell_mortgage" jdbcType="INTEGER" property="sellMortgage" />
+    <result column="sell_date" jdbcType="DATE" property="sellDate" />
+    <result column="sell_remark" jdbcType="VARCHAR" property="sellRemark" />
+    <result column="sell_create_time" jdbcType="TIMESTAMP" property="sellCreateTime" />
+    <result column="sell_update_time" jdbcType="TIMESTAMP" property="sellUpdateTime" />
+    <result column="sell_status" jdbcType="INTEGER" property="sellStatus" />
+    <result column="house_id" jdbcType="INTEGER" property="houseId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="staff_id" jdbcType="INTEGER" property="staffId" />
+    <result column="user_bank" jdbcType="VARCHAR" property="userBank" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sell_id, sell_price, sell_taxation, sell_agency, sell_handsel, sell_down, sell_final,
+    sell_mortgage, sell_date, sell_remark, sell_create_time, sell_update_time, sell_status, house_id,
+    user_id,staff_id,user_bank
+  </sql>
+
+  <!--根据ID查询-->
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="sell">
+    select
+      sell_id,house_id,staff_id,sell_price,sell_taxation,sell_agency, sell_handsel,sell_down, sell_final,sell_mortgage, sell_date, sell_remark,user_name,user_phone
+    from lf_sell
+    where sell_id = #{sellId,jdbcType=INTEGER}
+  </select>
+
+  <!--逻辑删除方法-->
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    update lf_sell
+      set sell_status = 0
+    where sell_id = #{sellId,jdbcType=INTEGER}
+  </update>
+  <insert id="insert" parameterType="com.lf.background.sellhouse.domain.Sell">
+    insert into lf_sell ( sell_price, sell_taxation,
+      sell_agency, sell_handsel, sell_down,
+      sell_final, sell_mortgage, sell_date,
+      sell_remark, sell_create_time,user_id,user_bank,
+      sell_status, house_id, staff_id,user_phone,user_name
+      )
+    values (#{sellPrice,jdbcType=DOUBLE}, #{sellTaxation,jdbcType=DOUBLE},
+      #{sellAgency,jdbcType=DOUBLE}, #{sellHandsel,jdbcType=DOUBLE}, #{sellDown,jdbcType=DOUBLE},
+      #{sellFinal,jdbcType=DOUBLE}, #{sellMortgage,jdbcType=INTEGER}, #{sellDate,jdbcType=DATE},
+      #{sellRemark,jdbcType=VARCHAR},now(),#{userId,jdbcType=INTEGER},#{userBank,jdbcType=INTEGER},
+      1, #{houseId,jdbcType=INTEGER}, #{staffId,jdbcType=INTEGER},#{userPhone,jdbcType=INTEGER},#{userName,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lf.background.sellhouse.domain.Sell">
+    insert into lf_sell
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sellId != null">
+        sell_id,
+      </if>
+      <if test="sellPrice != null">
+        sell_price,
+      </if>
+      <if test="sellTaxation != null">
+        sell_taxation,
+      </if>
+      <if test="sellAgency != null">
+        sell_agency,
+      </if>
+      <if test="sellHandsel != null">
+        sell_handsel,
+      </if>
+      <if test="sellDown != null">
+        sell_down,
+      </if>
+      <if test="sellFinal != null">
+        sell_final,
+      </if>
+      <if test="sellMortgage != null">
+        sell_mortgage,
+      </if>
+      <if test="sellDate != null">
+        sell_date,
+      </if>
+      <if test="sellRemark != null">
+        sell_remark,
+      </if>
+      <if test="sellCreateTime != null">
+        sell_create_time,
+      </if>
+      <if test="sellUpdateTime != null">
+        sell_update_time,
+      </if>
+      <if test="sellStatus != null">
+        sell_status,
+      </if>
+      <if test="houseId != null">
+        house_id,
+      </if>
+      <if test="staffId != null">
+        staff_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sellId != null">
+        #{sellId,jdbcType=INTEGER},
+      </if>
+      <if test="sellPrice != null">
+        #{sellPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="sellTaxation != null">
+        #{sellTaxation,jdbcType=DOUBLE},
+      </if>
+      <if test="sellAgency != null">
+        #{sellAgency,jdbcType=DOUBLE},
+      </if>
+      <if test="sellHandsel != null">
+        #{sellHandsel,jdbcType=DOUBLE},
+      </if>
+      <if test="sellDown != null">
+        #{sellDown,jdbcType=DOUBLE},
+      </if>
+      <if test="sellFinal != null">
+        #{sellFinal,jdbcType=DOUBLE},
+      </if>
+      <if test="sellMortgage != null">
+        #{sellMortgage,jdbcType=INTEGER},
+      </if>
+      <if test="sellDate != null">
+        #{sellDate,jdbcType=DATE},
+      </if>
+      <if test="sellRemark != null">
+        #{sellRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="sellCreateTime != null">
+        #{sellCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sellUpdateTime != null">
+        #{sellUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sellStatus != null">
+        #{sellStatus,jdbcType=INTEGER},
+      </if>
+      <if test="houseId != null">
+        #{houseId,jdbcType=INTEGER},
+      </if>
+      <if test="staffId != null">
+        #{staffId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lf.background.sellhouse.domain.Sell">
+    update lf_sell
+    <set>
+      <if test="sellPrice != null">
+        sell_price = #{sellPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="sellTaxation != null">
+        sell_taxation = #{sellTaxation,jdbcType=DOUBLE},
+      </if>
+      <if test="sellAgency != null">
+        sell_agency = #{sellAgency,jdbcType=DOUBLE},
+      </if>
+      <if test="sellHandsel != null">
+        sell_handsel = #{sellHandsel,jdbcType=DOUBLE},
+      </if>
+      <if test="sellDown != null">
+        sell_down = #{sellDown,jdbcType=DOUBLE},
+      </if>
+      <if test="sellFinal != null">
+        sell_final = #{sellFinal,jdbcType=DOUBLE},
+      </if>
+      <if test="sellMortgage != null">
+        sell_mortgage = #{sellMortgage,jdbcType=INTEGER},
+      </if>
+      <if test="sellDate != null">
+        sell_date = #{sellDate,jdbcType=DATE},
+      </if>
+      <if test="sellRemark != null">
+        sell_remark = #{sellRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="sellCreateTime != null">
+        sell_create_time = now(),
+      </if>
+      <if test="sellUpdateTime != null">
+        sell_update_time = now(),
+      </if>
+      <if test="sellStatus != null">
+        sell_status = 1,
+      </if>
+      <if test="houseId != null">
+        house_id = #{houseId,jdbcType=INTEGER},
+      </if>
+      <if test="staffId != null">
+        staff_id = #{staffId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where sell_id = #{sellId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lf.background.sellhouse.domain.Sell">
+    update lf_sell
+    set sell_price = #{sellPrice,jdbcType=DOUBLE},
+      sell_taxation = #{sellTaxation,jdbcType=DOUBLE},
+      sell_agency = #{sellAgency,jdbcType=DOUBLE},
+      sell_handsel = #{sellHandsel,jdbcType=DOUBLE},
+      sell_down = #{sellDown,jdbcType=DOUBLE},
+      sell_final = #{sellFinal,jdbcType=DOUBLE},
+      sell_mortgage = #{sellMortgage,jdbcType=INTEGER},
+      sell_date = #{sellDate,jdbcType=DATE},
+      sell_remark = #{sellRemark,jdbcType=VARCHAR},
+      sell_update_time = now(),
+      house_id = #{houseId,jdbcType=INTEGER},
+      staff_id = #{staffId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      user_phone=#{userPhone,jdbcType=VARCHAR}
+    where sell_id = #{sellId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="queqyList" resultType="sell">
+      select sell_id, house_id,staff_id,sell_date,sell_price,sell_down,user_name,user_phone,sell_final
+        from lf_sell
+        where
+          1=1
+          <if test="sea.seaHouseId!=null">
+            and house_id = #{sea.seaHouseId}
+          </if>
+          <if test="sea.seaStaffId!=null">
+            and staff_id = #{sea.seaStaffId}
+          </if>
+          <if test="sea.sellTimeB!=null and sea.sellTimeB!=''">
+            and sell_date <![CDATA[>=]]> #{sea.sellTimeB}
+          </if>
+          <if test="sea.sellTimeE!=null and sea.sellTimeE!=''">
+            and sell_date <![CDATA[<=]]> #{sea.sellTimeE}
+          </if>
+          and sell_status = 1
+          <if test="sort != null and sort != ''">
+            order by ${sort} ${order}
+          </if>
+
+  </select>
+  <select id="selectHouseId" resultType="map">
+      SELECT DISTINCT
+          h.house_id id,
+          h.house_id text
+      FROM
+          lf_house h
+      where h.house_hstatus = 1
+      and h.house_method = 2
+      and h.house_status = 0
+  </select>
+</mapper>

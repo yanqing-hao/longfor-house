@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lf.foreground.leasehouse.mapper.AgoLeaseMapper">
+
+    <resultMap id="HousePictureMap" type="com.lf.background.house.house.domain.HouseStaffPicture">
+        <id column="house_id" jdbcType="INTEGER" property="houseId" />
+        <result column="house_method" jdbcType="INTEGER" property="houseMethod" />
+        <result column="house_title" jdbcType="VARCHAR" property="houseTitle" />
+        <result column="staff_area" jdbcType="REAL" property="staffArea" />
+        <result column="house_name" jdbcType="VARCHAR" property="houseName" />
+        <result column="house_addr" jdbcType="VARCHAR" property="houseAddr" />
+        <result column="house_count" jdbcType="INTEGER" property="houseCount" />
+        <result column="house_floor" jdbcType="INTEGER" property="houseFloor" />
+        <result column="house_sum_floor" jdbcType="INTEGER" property="houseSumFloor" />
+        <result column="house_case" jdbcType="INTEGER" property="houseCase" />
+        <result column="house_build" jdbcType="INTEGER" property="houseBuild" />
+        <result column="house_direction" jdbcType="VARCHAR" property="houseDirection" />
+        <result column="house_region" jdbcType="VARCHAR" property="houseRegion" />
+        <result column="house_rtype" jdbcType="INTEGER" property="houseRtype" />
+        <result column="house_sell_price" jdbcType="DOUBLE" property="houseSellPrice" />
+        <result column="house_developers" jdbcType="VARCHAR" property="houseDevelopers" />
+        <result column="house_equity" jdbcType="VARCHAR" property="houseEquity" />
+        <result column="house_configure" jdbcType="VARCHAR" property="houseConfigure" />
+        <result column="house_lease_type" jdbcType="INTEGER" property="houseLeaseType" />
+        <result column="house_lease_price" jdbcType="DOUBLE" property="houseLeasePrice" />
+        <result column="house_status" jdbcType="INTEGER" property="houseStatus" />
+        <result column="house_remark" jdbcType="VARCHAR" property="houseRemark" />
+        <result column="house_create_time" jdbcType="TIMESTAMP" property="houseCreateTime" />
+        <result column="house_update_time" jdbcType="TIMESTAMP" property="houseUpdateTime" />
+        <result column="house_hstatus" jdbcType="INTEGER" property="houseHstatus" />
+        <result column="house_about" jdbcType="VARCHAR" property="houseAbout" />
+        <result column="staff_id" jdbcType="INTEGER" property="staffId" />
+        <result column="staff_name" jdbcType="VARCHAR" property="staffName" />
+        <collection property="pictureList" ofType="picture">
+            <id column="pic_id" jdbcType="INTEGER" property="picId" />
+            <result column="pic_path" jdbcType="VARCHAR" property="picPath" />
+            <result column="pic_type" jdbcType="INTEGER" property="picType" />
+            <result column="pic_create_time" jdbcType="TIMESTAMP" property="picCreateTime" />
+            <result column="pic_update_time" jdbcType="TIMESTAMP" property="picUpdateTime" />
+            <result column="pic_status" jdbcType="INTEGER" property="picStatus" />
+        </collection>
+    </resultMap>
+
+<!--条件查询-->
+    <select id="agoLeaseList" resultType="HouseShow" parameterType="com.lf.foreground.leasehouse.domain.pirceVo">
+
+        SELECT h.house_id,h.house_title,h.staff_area,h.house_name,h.house_sell_price,h.house_count,h.house_addr,h.house_case,h.house_create_time,h.house_floor,h.house_sum_floor,p.pic_path,s.staff_name
+        FROM lf_house h LEFT JOIN lf_staff s
+        ON h.staff_id = s.staff_id
+        LEFT JOIN lf_picture p
+        ON h.house_id = p.house_id
+        WHERE h.house_method=1 AND p.pic_type=0 and h.house_status = 0
+        <if test="pirB != null">
+        and h.house_lease_price >= #{pirB}
+        </if>
+        <if test="pirE != null">
+            and h.house_lease_price &lt;= #{pirE}
+        </if>
+        <if test="staffAreaB != null">
+            and h.staff_area >= #{staffAreaB}
+        </if>
+        <if test="staffAreaE != null">
+            and h.staff_area &lt;= #{staffAreaE}
+        </if>
+        <if test="houseCount != null">
+            and h.house_count = #{houseCount}
+        </if>
+        <if test="orderbyDate != null and orderbyDate != '' and orderby != null and orderby != ''">
+
+            order by
+           <if test="orderbyDate == 'house_create_time'">
+               convert(${orderbyDate},datetime)
+           </if>
+            <if test="orderbyDate != 'house_create_time'">
+                ${orderbyDate}
+            </if>
+            ${orderby}
+
+
+        </if>
+    </select>
+
+<!--添加-->
+<insert id="purchaseAdd" parameterType="com.lf.background.leasehouse.domain.Lease">
+insert into lf_lease
+<trim prefix="(" suffix=")" suffixOverrides=",">
+    <if test="leaseId != null">
+        lease_id,
+    </if>
+    <if test="leaseRent != null">
+        lease_rent,
+    </if>
+    <if test="leaseAgency != null">
+        lease_agency,
+    </if>
+    <if test="startTime != null">
+        start_time,
+    </if>
+    <if test="endTime != null">
+        end_time,
+    </if>
+    <if test="leaseCompact != null">
+        lease_compact,
+    </if>
+    <if test="leaseCashPledge != null and leaseCashPledge != ''">
+        lease_cash_pledge,
+    </if>
+    <if test="leaseRemark != null">
+        lease_remark,
+    </if>
+    <if test="leaseCreateTime != null">
+        lease_create_time,
+    </if>
+    <if test="leaseUpdateTime != null">
+        lease_update_time,
+    </if>
+    <if test="leaseStatus != null">
+        lease_status,
+    </if>
+    <if test="staffId != null">
+        staff_id,
+    </if>
+    <if test="houseId != null">
+        house_id,
+    </if>
+    <if test="userName != null">
+        user_name,
+    </if>
+    <if test="userPhone != null">
+        user_phone,
+    </if>
+    <if test="userId != null">
+        user_id,
+    </if>
+    <if test="userBank != null">
+        user_bank,
+    </if>
+</trim>
+<trim prefix="values (" suffix=")" suffixOverrides=",">
+    <if test="leaseId != null">
+        #{leaseId,jdbcType=INTEGER},
+    </if>
+    <if test="leaseRent != null">
+        #{leaseRent,jdbcType=DOUBLE},
+    </if>
+    <if test="leaseAgency != null">
+        #{leaseAgency,jdbcType=DOUBLE},
+    </if>
+    <if test="startTime != null">
+        #{startTime,jdbcType=DATE},
+    </if>
+    <if test="endTime != null">
+        #{endTime,jdbcType=DATE},
+    </if>
+    <if test="leaseCompact != null">
+        #{leaseCompact,jdbcType=VARCHAR},
+    </if>
+    <if test="leaseCashPledge != null  and leaseCashPledge != ''">
+        #{leaseCashPledge,jdbcType=DOUBLE},
+    </if>
+    <if test="leaseRemark != null">
+        #{leaseRemark,jdbcType=VARCHAR},
+    </if>
+    <if test="leaseCreateTime != null">
+        #{leaseCreateTime,jdbcType=TIMESTAMP},
+    </if>
+    <if test="leaseUpdateTime != null">
+        #{leaseUpdateTime,jdbcType=TIMESTAMP},
+    </if>
+    <if test="leaseStatus != null">
+        #{leaseStatus,jdbcType=INTEGER},
+    </if>
+    <if test="staffId != null">
+        #{staffId,jdbcType=INTEGER},
+    </if>
+    <if test="houseId != null">
+        #{houseId,jdbcType=INTEGER},
+    </if>
+    <if test="userName != null">
+        #{userName},
+    </if>
+    <if test="userPhone != null">
+        #{userPhone},
+    </if>
+    <if test="userId != null">
+        #{userId},
+    </if>
+    <if test="userBank != null">
+        #{userBank},
+    </if>
+</trim>
+</insert>
+</mapper>
